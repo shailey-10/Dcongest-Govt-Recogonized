@@ -11,6 +11,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
+  background-color: #FFF0F0;
 }
 
 a {
@@ -65,7 +66,10 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   transition: all 0.5s;
   padding: 15px 0;
-  background: #000;
+  background: #0a0a0a;
+  width: 50%;
+  left: 50%;
+  position: fixed;
 }
 
 #header .logo h1 {
@@ -89,10 +93,30 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 40px;
 }
 
-@media (max-width: 992px) {
+.presence{
+  height: 50%;
+  position: relative;
+  margin-top: 10%;
+  left: 22%;
+}
+
+#process{
+  background-color: #FFF0F0;
+}
+
+.thumb{
+  width: 50%;
+  position: relative;
+  bottom: 10%;
+ 
+}
+
+@media (max-width: 1050px) {
   #header {
     height: 60px;
     padding: 8px 0;
+    width: 100%;
+    left: 0;
   }
 }
 
@@ -104,6 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
   list-style: none;
+ position: fixed;
 }
 
 .nav-menu > ul > li {
@@ -124,6 +149,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-menu > ul > li + li {
   margin-left: 30px;
+}
+
+.d-flex{
+  width: 60%;
 }
 
 .nav-menu > ul > li > a:before {
@@ -337,16 +366,46 @@ h1, h2, h3, h4, h5, h6 {
 #hero {
   width: 100%;
   height: calc(100vh - 72px);
-  background: url("../img/hero.jpg") center center;
+  background-color: #0a0a0a;
   background-size: cover;
   position: relative;
   margin-top: 72px;
   padding: 0;
 }
+.left{
+  background-color: #FFF0F0;
+  width: 50%;
+  height: 100vh;
+  float: left;
+}
+
+.left a, .left h2 , .sub-text {
+  display: none;
+  color: #000;
+}
+
+.right{
+  background-color: #0a0a0a;
+  width: 50%;
+  height: 100vh;
+  float: left;
+}
+
+
+.elements{
+  width: 33%;
+  margin-left: 67%;
+  height: 145vh;
+
+}
+.me{
+height: 50%;
+margin-right: 30%;
+}
 
 #hero:before {
   content: "";
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0);
   position: absolute;
   bottom: 0;
   top: 0;
@@ -360,19 +419,37 @@ h1, h2, h3, h4, h5, h6 {
 
 #hero h1 {
   margin: 0 0 10px 0;
-  font-size: 48px;
+  font-size: 88px;
   font-weight: 700;
   line-height: 56px;
   color: #fff;
+  margin-bottom: 20%;
+}
+
+.row{
+  margin-bottom: 5%;
 }
 
 #hero h2 {
+  color: #fff;
+  margin-bottom: 35px;
+  font-size: 45px;
+  position: relative;
+  bottom: 5%;
+  left: 21%;
+}
+#hero p {
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 35px;
-  font-size: 24px;
+  font-size: 14px;
+  position: relative;
+  left: 21%;
+  bottom: 5%;
 }
-
-#hero .btn-get-started {
+.btn-get-started{
+  position: relative;
+  top: -25%;
+  left: 21%;
   font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
@@ -382,18 +459,79 @@ h1, h2, h3, h4, h5, h6 {
   padding: 8px 28px;
   border-radius: 4px;
   transition: 0.5s;
-  border: 2px solid #fff;
-  color: #fff;
+  border: 2px solid #1bac91;
+  color: #1bac91;
+
+}
+
+.hero-img{
+width: 100%;
+position: relative;
+top: 8%;
+
+}
+
+.mainImg{
+  height: 380px;
+  margin-left: -15%;
+  margin-top: 10%;
 }
 
 #hero .btn-get-started:hover {
   border-color: #1bac91;
   background: #1bac91;
+  color: #fff;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   #hero {
+    
+    background-repeat: no-repeat;
     background-attachment: fixed;
+  }
+
+  .right{
+display: none;  }
+  .left{
+    width: 100%;
+  }
+
+  #hero {
+    text-align: center;
+  }
+
+  #hero p{
+    left: 1%;
+  }
+  #hero h2{
+    left: 0;
+  }
+  .content{
+    text-align: center;
+    top: 2%;
+    position: relative;
+
+  }
+
+  .hero-img{
+    top: 10%;
+    position: relative;
+  }
+
+  .left a, #hero h2 , .sub-text{
+    display:unset;
+    color: #000;
+  }
+  .left a{
+    color:#1bac91 ;
+    left: 0;
+  }
+  .me{
+    visibility: hidden;
+  }
+
+  #hero h1 {
+    margin-bottom: 110%;
   }
 }
 
@@ -405,15 +543,68 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  .me{
+    visibility: hidden;
+  }
+  #hero{
+    background-repeat: no-repeat;
+    background-image: url('../img/back.jpg');
+
+  }
+
+  .sub-text{
+    padding: 0 40px;
+
+  }
+
+  .hero-img{
+    margin-top: 30%;
+
+  }
+
   #hero h1 {
-    font-size: 28px;
+    font-size: 48px;
     line-height: 36px;
+    margin-bottom: 160%;
   }
   #hero h2 {
-    font-size: 18px;
+    font-size: 28px;
     line-height: 24px;
     margin-bottom: 30px;
   }
+  .sub-text{
+    left: 0%;
+  }
+}
+
+@media (max-width: 767px) {
+  .me{
+    visibility: hidden;
+  }
+  #hero{
+    background: url("../img/back.jpg") center center;
+    background-repeat: no-repeat;
+
+  }
+ 
+
+  #hero h1 {
+    font-size: 38px;
+    line-height: 36px;
+    margin-bottom: 260%;
+  }
+  #hero h2 {
+    font-size: 28px;
+    line-height: 24px;
+    margin-bottom: 30px;
+  }
+  .left{
+    background-color: transparent;
+  }
+}
+
+#services{
+  background-color: #E5E5E5;
 }
 
 /*--------------------------------------------------------------
@@ -422,10 +613,11 @@ h1, h2, h3, h4, h5, h6 {
 section {
   padding: 60px 0;
   overflow: hidden;
+   background-color: #fff
 }
 
 .section-bg {
-  background-color: #f2f9f8;
+  background-color: #E5E5E5;
 }
 
 .section-title {
@@ -434,15 +626,17 @@ section {
 }
 
 .section-title h2 {
-  font-size: 36px;
-  font-weight: 300;
+  font-family: 'Tenor Sans';
+  font-size: 46px;
+  font-weight: 400;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #21413c;
+  color: #000;
 }
 
 .section-title p {
   margin-bottom: 0;
+  color: #000;
 }
 
 /*--------------------------------------------------------------
@@ -453,6 +647,8 @@ section {
   font-size: 34px;
   color: #21413c;
 }
+
+
 
 .about .icon-box {
   margin-top: 44px;
@@ -494,6 +690,7 @@ section {
   border-bottom: 1px solid #d4e9e6;
   margin: -1px;
 }
+
 
 .steps .content-item span {
   display: block;
@@ -585,7 +782,7 @@ section {
 /*--------------------------------------------------------------
 # Services
 --------------------------------------------------------------*/
-.services .icon-box {
+.services .icon-box  {
   padding: 30px;
   position: relative;
   overflow: hidden;
@@ -595,6 +792,14 @@ section {
   border-radius: 15px;
   text-align: center;
   border-bottom: 3px solid #fff;
+}
+
+.thumb-box{
+  
+  transition: all 0.3s ease-in-out;
+  
+  text-align: center;
+  
 }
 
 .services .icon-box:hover {
@@ -623,6 +828,12 @@ section {
   margin-bottom: 0;
 }
 
+#description{
+  font-family: 'tenor sans';
+  font-size: 15px;
+  text-align: center;
+}
+
 .services .icon-box-pink .icon i {
   color: #ff689b;
 }
@@ -639,6 +850,38 @@ section {
   color: #2282ff;
 }
 
+#proccessTitle{
+  font-family: 'tenor sans';
+  font-size: 30px;
+  color: #FE7F7F;
+  position: relative;
+  margin-top: 5%;
+}
+
+.btn-call{
+  text-align: center;
+  
+}
+.btn-call a{
+  position: relative;
+  
+  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 28px;
+  border-radius: 4px;
+  transition: 0.5s;
+  border: 2px solid #FE7F7F;
+  color:#FE7F7F;
+}
+.btn-call a:hover {
+  border-color: #FE7F7F;
+  background: #FE7F7F;
+  color: #fff;
+}
 /*--------------------------------------------------------------
 # Testimonials
 --------------------------------------------------------------*/
@@ -720,6 +963,7 @@ section {
   .testimonials {
     margin: 30px 10px;
   }
+
 }
 
 /*--------------------------------------------------------------
