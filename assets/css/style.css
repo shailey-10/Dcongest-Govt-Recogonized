@@ -601,7 +601,7 @@ display: none;  }
     visibility: hidden;
   }
   #hero{
-    background: url("../img/back.png") center center;
+    background: #464646;
     background-repeat: no-repeat;
 
   }
