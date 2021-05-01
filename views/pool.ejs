@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpool</title>
+    <style>
+        p{
+            margin-top:25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            text-align: center;
+        }
+        .content{
+            padding: 20px;
+        }
+        .users{
+            display: flex;  
+            justify-content: space-between;
+            align-items: center;  
+        }
+        img{
+            height: 40px;
+        }
+        h4{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        a{
+            background: #35B24F ;
+            border-radius: 30px;
+            padding:6px 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+   
+    <% if(users >1) { %>
+        <p><%= users%> people are going on the same route as yours carpool now!</p>  
+        <%for(let i =0; i < users;i++){%>
+            <div class="users">
+            <img src="assets/user.jpg" alt=""> <h4><%= name[i].name%></h3> <a> Message </a>
+            </div>
+        <%}}else{%>
+            <h1>No one to carpool with</h1>
+            <%}%>
+        </div>
+</body>
+</html>
