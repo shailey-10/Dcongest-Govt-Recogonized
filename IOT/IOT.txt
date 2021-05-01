@@ -1,0 +1,1453 @@
+// The simulation link-
+// https://www.tinkercad.com/things/7pHEBbWG6Vk-final/editel
+
+
+
+int Lane1[] = {13,12,11}; // Lane 1 Red, Yellow and Green
+int Lane2[] = {10,9,8};// Lane 2 Red, Yellow and Green
+int Lane3[] = {7,6,5};// Lane 3 Red, Yellow and Green
+int Lane4[] = {4,3,2};// Lane 4 Red, Yellow and Green
+int cars[]={0,0,0,0}; //Declare an Int variable to hold your number of cars        
+
+int max[]={0,0,0,0};
+int min1;
+int min;
+
+int time[]={0,0,0,0};
+int temp[]={};
+
+int max1[4] = {0, 1, 2, 3};
+bool switched = false;
+
+
+void setup() 
+{ 
+  Serial.begin(9600);
+  //To define the pinmode
+  for (int i = 0; i < 3; i++)
+  {
+    pinMode(Lane1[i], OUTPUT); 
+    pinMode(Lane2[i], OUTPUT);
+    pinMode(Lane3[i], OUTPUT);
+    pinMode(Lane4[i], OUTPUT);
+  }
+  
+  //Input for signal 
+  for (int i = 0; i < 3; i++)
+  {
+    digitalWrite(Lane1[i], LOW); 
+    digitalWrite(Lane2[i], LOW);
+    digitalWrite(Lane3[i], LOW);
+    digitalWrite(Lane4[i], LOW);
+  }
+ 
+ for(int j=0;j<4;j++)
+ {
+   Serial.print("Enter number of cars on lane:  ");
+   Serial.print(j);
+
+   while (Serial.available()==0)  {
+   
+  }
+ cars[j]=Serial.parseInt();  //Read user input into age
+  Serial.println(cars[j]);
+ }
+ /* Serial.println(cars[0]);
+  Serial.println(cars[1]);
+  Serial.println(cars[2]);
+  Serial.println(cars[3]);
+  */
+  if(cars[0]<cars[1] && cars[0]<cars[1] && cars[0]<cars[3])
+  {
+     min=cars[0];
+  		min1=0;		
+  }
+  else if(cars[1]<cars[0] && cars[1]<cars[2] && cars[1]<cars[3])
+  {
+  min=cars[1];
+    min1=1;
+  }
+  else if(cars[2]<cars[0] && cars[2]<cars[1] && cars[2]<cars[3])
+  {
+    min=cars[2];
+    min1=2;
+  }
+  else if(cars[3]<cars[1] && cars[3]<cars[2] && cars[3]<cars[0]){
+    min=cars[3];
+    min1=3;
+  }
+ Serial.println(min);
+  Serial.println(min1);
+ 
+  cars[min1]=0;	
+     
+  	/*Serial.println(cars[0]);
+  	Serial.println(cars[1]);
+    Serial.println(cars[2]);
+    Serial.println(cars[3]);
+	*/
+  for(int i=0;i<4;i++)
+	{	
+    
+    if(cars[i]==0)
+    {
+     temp[i]=0;
+     time[i]=5000;
+    }
+  else if(i==2){
+    temp[i]=cars[i]-min-1;
+    time[i]=temp[i]/2;
+    }
+      else
+  	  {
+		temp[i]=cars[i]-min;
+		time[i]=temp[i]/2;
+        time[i]=time[i]*10;
+	}
+  	
+  }
+   
+  /* Serial.println(time[0]); 
+   Serial.println(time[1]);
+   Serial.println(time[2]);
+   Serial.println(time[3]);
+*/
+do
+{
+    switched = false;
+    for(int i =1 ; i <=4; i++)
+    {
+        if(time[max1[i - 1]] < time[max1[i]])
+        {
+            int x = max1[i];
+            max1[i] = max1[i - 1];
+            max1[i - 1] = x;
+           switched = true;
+        }
+    }
+}
+while(switched);
+  Serial.println("Check");
+  Serial.println(max1[0]);
+    Serial.println(max1[1]);
+  Serial.println(max1[2]);
+    Serial.println(max1[3]);
+  
+
+}
+void loop() 
+{ 
+  if(max1[0]==0 && max1[1]==2 && max1[2]==3 && max1[3]==1)
+  { 
+  
+   digitalWrite(Lane1[2], HIGH);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[0], HIGH);
+  delay(time[0]*100);
+  digitalWrite(Lane1[2], LOW);
+  digitalWrite(Lane3[0], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane3[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane1[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane1[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(time[2]*100);
+  digitalWrite(Lane3[2], LOW);
+  digitalWrite(Lane4[0], LOW);
+  digitalWrite(Lane3[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[2], HIGH);
+  delay(time[3]*100);
+  digitalWrite(Lane4[2], LOW);
+  digitalWrite(Lane2[0], LOW);
+  digitalWrite(Lane4[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[2], HIGH);
+  delay(time[2]*100);
+  digitalWrite(Lane1[0], LOW);
+  digitalWrite(Lane2[2], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane1[1], LOW);
+  }
+  
+  else if(max1[0]==0 && max1[1]==1 && max1[2]==2 && max1[3]==3)
+  {
+  digitalWrite(Lane1[2], HIGH);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[0], HIGH);
+  delay(time[0]*100);
+  digitalWrite(Lane1[2], LOW);
+  digitalWrite(Lane2[0], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane1[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane1[0], HIGH);
+  digitalWrite(Lane2[2], HIGH);
+  delay(time[1]*100);
+  digitalWrite(Lane2[2], LOW);
+  digitalWrite(Lane3[0], LOW);
+  digitalWrite(Lane2[1], HIGH);
+  digitalWrite(Lane3[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane2[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(time[2]*100);
+  digitalWrite(Lane3[2], LOW);
+  digitalWrite(Lane4[0], LOW);
+  digitalWrite(Lane3[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane1[0], LOW);
+  digitalWrite(Lane4[2], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane1[1], LOW);
+  //AFTER THIS LOOP GOES UP ADN RESTARTS
+  
+  }
+  else if(max1[0]==0 &&max1[1]==1 && max1[2]==3 && max1[3]==2){
+    
+    digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane2[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane3[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane1[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane2[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane1[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane2[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane2[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane4[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane2[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane4[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane2[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane4[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane3[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane4[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane3[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane4[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(time[3]*10);
+  
+  digitalWrite(Lane3[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane1[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane3[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  
+	}
+  
+  else if(max1[0]==0 &&max1[1]==2 && max1[2]==1 && max1[3]==3){
+      
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane4[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane1[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane1[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1], HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane3[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane3[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane4[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane4[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane2[1], LOW);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane4[1], LOW);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane4[2], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane1[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane1[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane1[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane4[1], LOW);// LANE 1 YELLOW 
+    }
+  
+  else if(max1[0]==0 && max1[1]==3 && max1[2]==2 && max1[3]==1){
+        
+         digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  else if(max1[0]==0 &&max1[1]==3 && max1[2]==1 && max1[3]==2){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  
+  else if(max1[0]==1 && max1[1]==0 && max1[2]==2 && max1[3]==3)
+  { 
+  digitalWrite(Lane1[2], HIGH);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[0], HIGH);
+  delay(7000);
+  digitalWrite(Lane1[2], LOW);
+  digitalWrite(Lane3[0], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane3[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane1[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane1[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane3[2], LOW);
+  digitalWrite(Lane4[0], LOW);
+  digitalWrite(Lane3[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane4[2], LOW);
+  digitalWrite(Lane2[0], LOW);
+  digitalWrite(Lane4[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane1[0], LOW);
+  digitalWrite(Lane2[2], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane1[1], LOW);
+  }
+  
+  else if(max1[0]==1 &&max1[1]==0 && max1[2]==3 && max1[3]==2)
+  {
+  digitalWrite(Lane1[2], HIGH);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[0], HIGH);
+  delay(7000);
+  digitalWrite(Lane1[2], LOW);
+  digitalWrite(Lane3[0], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane3[1], HIGH);
+  delay(3000);
+  digitalWrite(Lane1[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane1[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane3[2], LOW);
+  digitalWrite(Lane4[0], LOW);
+  digitalWrite(Lane3[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane4[2], LOW);
+  digitalWrite(Lane2[0], LOW);
+  digitalWrite(Lane4[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[2], HIGH);
+  delay(7000);
+  digitalWrite(Lane1[0], LOW);
+  digitalWrite(Lane2[2], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane1[1], LOW);
+  //AFTER THIS LOOP GOES UP ADN RESTARTS
+  
+  }
+  
+  
+  else if(max1[0]==1 &&max1[1]==2 && max1[2]==0 && max1[3]==3){
+    
+    digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  
+	}
+  
+  else if(max1[0]==1 && max1[1]==2 && max1[2]==3 && max1[3]==0){
+      
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+    }
+  
+ else if(max1[0]==1 && max1[1]==3 && max1[2]==2 && max1[3]==0){
+        
+  digitalWrite(Lane2[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(10000);
+  
+  digitalWrite(Lane2[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane4[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane2[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane2[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane4[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(7000);
+  
+  digitalWrite(Lane4[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane4[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane3[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane4[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane3[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(5000);
+  
+  digitalWrite(Lane3[2], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane1[0], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane3[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane1[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[1], LOW);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[1], LOW);//red is on LANE 3
+  digitalWrite(Lane1[2], HIGH);//red is on Lane 4
+  digitalWrite(Lane3[0], HIGH);//Red is on Lane 2
+  delay(4000);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane1[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane3[1], LOW);// LANE 1 YELLOW 
+  }
+  
+ else if(max1[0]==1 && max1[1]==3 && max1[2]==0 && max1[3]==2){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  else if(max1[0]==2 && max1[1]==3 && max1[2]==0 && max1[3]==1){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  else if(max1[0]==2 && max1[1]==3 && max1[2]==1 && max1[3]==0){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+   
+  else if(max1[0]==2 && max1[1]==0 && max1[2]==1 && max1[3]==3){
+  digitalWrite(Lane1[2], HIGH);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[0], HIGH);
+  delay(time[0]*10);
+  digitalWrite(Lane1[2], LOW);
+  digitalWrite(Lane3[0], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane3[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane1[1], LOW);
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane1[0], HIGH);
+  digitalWrite(Lane3[2], HIGH);
+  delay(time[2]*100);
+  digitalWrite(Lane3[2], LOW);
+  digitalWrite(Lane4[0], LOW);
+  digitalWrite(Lane3[1], HIGH);
+  digitalWrite(Lane4[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane3[1], LOW);
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane3[0], HIGH);
+  digitalWrite(Lane4[2], HIGH);
+  delay(time[3]*100);
+  digitalWrite(Lane4[2], LOW);
+  digitalWrite(Lane2[0], LOW);
+  digitalWrite(Lane4[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane4[1], LOW);
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane4[0], HIGH);
+  digitalWrite(Lane2[2], HIGH);
+  delay(time[2]*100);
+  digitalWrite(Lane1[0], LOW);
+  digitalWrite(Lane2[2], LOW);
+  digitalWrite(Lane1[1], HIGH);
+  digitalWrite(Lane2[1], HIGH);
+  delay(3000);
+    
+  digitalWrite(Lane2[1], LOW);
+  digitalWrite(Lane1[1], LOW);
+  }
+  
+  else if(max1[0]==2 && max1[1]==0 && max1[2]==3 && max1[3]==1){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*100);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*100);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*100);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*100);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  else if(max1[0]==2 && max1[1]==1 && max1[2]==0 && max1[3]==3){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*100);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*100);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*100);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*100);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+    else if(max1[0]==2 && max1[1]==1 && max1[2]==3 && max1[3]==0){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  else if(max1[0]==3 && max1[1]==0 && max1[2]==2 && max1[3]==1){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+   
+  else if(max1[0]==3 && max1[1]==0 && max1[2]==1 && max1[3]==2){
+  
+   digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  else if(max1[0]==3 && max1[1]==1 && max1[2]==2 && max1[3]==0){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+   else if(max1[0]==3 && max1[1]==1 && max1[2]==0 && max1[3]==2){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+  else if(max1[0]==3 && max1[1]==2 && max1[2]==1 && max1[3]==0){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+  
+    else if(max1[0]==3 && max1[1]==2 && max1[2]==0 && max1[3]==1){
+  
+  digitalWrite(Lane4[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane2[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane1[0], HIGH);//Red is on Lane 2
+  delay(time[0]*10);
+  
+  digitalWrite(Lane4[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane4[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+   
+  digitalWrite(Lane4[1], LOW); // Lane 1 YELLOW OFF 
+  digitalWrite(Lane3[1], LOW);//  Lane 3 YEllow OFF
+  digitalWrite(Lane4[0], HIGH);// Lane 1 RED ON
+  digitalWrite(Lane3[2], HIGH);// Lane 3 Green ON  **LANE 3 OPEN*
+  delay(time[1]*10);
+  
+  digitalWrite(Lane3[2], LOW); // Lane 3 Green OFF **TRANSITION**
+  digitalWrite(Lane2[0], LOW); //Lane 4 red OFF
+  digitalWrite(Lane3[1],HIGH); //Lane 3 is yellow
+  digitalWrite(Lane2[1], HIGH);// Lane 4 is yellow
+  delay(3000);
+ 
+    
+  digitalWrite(Lane4[1], LOW);//  Lane 4 YEllow OFF
+  digitalWrite(Lane2[1], LOW);//  LANE 2 YELLOW OFF
+  digitalWrite(Lane4[0], HIGH);// LANE 4 RED ON
+  digitalWrite(Lane2[2], HIGH);// LANE 2 GREEN ON **LANE 2 OPEN**
+  delay(time[2]*10);
+  
+  digitalWrite(Lane1[0], LOW);//  LANE 1 RED OFF **TRANSITION**
+  digitalWrite(Lane2[2], LOW);//  LANE 2 GREEN OFF
+  digitalWrite(Lane1[1], HIGH);// LANE 1 YELLOW ON
+  digitalWrite(Lane2[1], HIGH);// LANE 2 YELLOW ON
+  delay(3000);
+
+  digitalWrite(Lane1[2], HIGH);//green is on LANE 1**LANE 1 OPEN**
+  digitalWrite(Lane3[0], HIGH);//red is on LANE 3
+  digitalWrite(Lane4[0], HIGH);//red is on Lane 4
+  digitalWrite(Lane2[0], HIGH);//Red is on Lane 2
+  delay(time[3]*10);
+  
+  digitalWrite(Lane1[2], LOW);//  Lane 1 Green OFF **TRANSITION**
+  digitalWrite(Lane3[0], LOW);//  Lane 3 red OFF
+  digitalWrite(Lane1[1], HIGH);// Lane 1 is yellow
+  digitalWrite(Lane3[1], HIGH);// Lane 3 is yellow 
+  delay(3000);
+  
+  
+  digitalWrite(Lane2[1], LOW);//LANE 2 YELLOW OFF
+  digitalWrite(Lane1[1], LOW);// LANE 1 YELLOW 
+  }
+}
