@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Recommendation</title>
+    <style>
+         .contents{
+            padding: 20px;
+        }
+        h1{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 65px;
+            color: #35B24F ;
+            margin: 0;
+        }
+        h2{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            color: #000 ;
+            margin: 0;
+        }
+        img{
+            height: 150px;
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body><div class="contents">
+    <% if(users >2) { %>
+        <h1>30%</h1>
+        <br>
+        <h2>less congestion on selected route when you leave from <%=current%> to <%=destination%> 1 hour after <%=time%>
+            as <%=users*20%> other users are on the same route.
+        </h2>
+    <%}else{%>
+        <h1>You can leave at <%=time%>. It is a very goof time to leave!</h1>
+        <%}%>
+
+        <img src="assets/time.png" alt="">
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            height: 100vh;
+            background: url('assets/overall.png');
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Reccomendation</title>
+</head>
+<body id="body" onclick="yulu()">
+<script>
+    let count = 0;
+    function yulu(){
+        if(count==0){
+    document.body.style.background ="url(assets/yulu.png)";
+    count =1;
+}else if(count ==1){
+    document.body.style.background ="url(assets/yuluStar.png)";
+    count = 2
+}else if(count ==2){
+document.body.style.background ="url(assets/overall.png)";
+count = 0;}
+    }
+</script>
+</body>
+</html>

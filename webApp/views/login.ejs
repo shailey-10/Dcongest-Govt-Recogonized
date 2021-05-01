@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Login</title>
+</head>
+<body>
+    
+    <div class="fixed-map">
+    <div id="map"></div>
+    </div>
+    <div class="nav">
+        <img src="assets/nav.png" alt="">
+    </div>
+    <iframe name="votar" style="display:none;"></iframe>
+    <div class="form">
+    <form action="/login" method="POST" target="votar">
+        <div class="inputFields">
+   <label for="name"></label> <input placeholder="Name" autocomplete="off" type="text" name="name" id="name" >
+   <label for="current"></label><input placeholder="Current Location" autocomplete="off" type="text" name="current" id="current">
+   <label for="destination"></label><input type="text" placeholder="Destination Location" autocomplete="off" name="destination" id="destination">
+   <label for="time"></label><input type="text" placeholder="Time" name="time" id="time" autocomplete="off">
+   <label for="days"></label><input type="text" placeholder="Days" name="days" id="days" autocomplete="off">
+</div>
+<div class="butt">
+    <Button type="submit" onclick="trans()">Recommend Transport</Button> 
+    
+</form>
+<form >
+    <button type="button" onclick="time()">Recommend Time</button>
+</form>
+
+<form>
+    <Button type="button"  onclick="pool()">Carpool</Button>
+</form>
+</div>
+    
+</div>
+<div class="iframe" onclick="explain()">
+    <iframe src="" frameborder="0" scrolling="no" id="myFrame" ></iframe>
+</div>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
+<script>
+    let exp = false;
+    function pool(){
+          document.getElementById("myFrame").src = "/pool";
+          document.getElementById("myFrame").style.visibility = 'visible';
+          document.getElementById("myFrame").style.height = '400px';
+          document.getElementById("map").style.background = "url(assets/bMapOverlay.png)"
+          
+}
+    function time(){
+          document.getElementById("myFrame").src = "/time";
+          document.getElementById("myFrame").style.visibility = 'visible';
+          document.getElementById("myFrame").style.height = '400px';
+          document.getElementById("map").style.background = "url(assets/bMapOverlay.png)"
+          
+}
+    function trans(){
+        document.getElementById("myFrame").src = "/trans";
+          document.getElementById("myFrame").style.visibility = 'visible';
+          document.getElementById("myFrame").style.height = '400px';
+          document.getElementById("map").style.background = "url(assets/bMapOverlay.png)"
+    }
+document.addEventListener('mouseup', function(e) {
+  var container = document.getElementById('myFrame');
+  if (!container.contains(e.target)) {
+    container.style.visibility = 'none';
+    container.style.height = '0px';
+    document.getElementById("map").style.background = "url(assets/bMap.png)";
+    exp = false;
+  }
+  $('#myFrame').click(function(){
+
+$('iframe').contents().find('body').css('background-image', 'url(url_of_img.png)');
+$('iframe').contents().find('body').css('opacity', 0.8);
+
+});
+});
+</script>
+
+
+</body>
+</html>
