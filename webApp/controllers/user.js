@@ -9,7 +9,7 @@ exports.getIndex = (req, res, next) =>{
 }
 exports.getBusReccomend = (req, res, next) =>{
 
-    User.find({time:'9:00PM'}).then(user =>{
+    User.find({time:'9:00 PM'}).then(user =>{
         
         current = user[0].current;
         destination = user[0].destination;
@@ -25,7 +25,7 @@ exports.getBusRec = (req, res, next) =>{
 }
 exports.getTimeRec = (req, res, next) =>{
 
-    User.find({time:'9:00PM'}).then(user =>{
+    User.find({time:'9:00 PM'}).then(user =>{
         
         current = user[0].current;
         destination = user[0].destination;
@@ -38,7 +38,7 @@ exports.getTimeRec = (req, res, next) =>{
 }
 exports.getCarpool = (req, res, next) =>{
 
-    User.find({time:'9:00PM'}).then(user =>{
+    User.find({time:'9:00 PM'}).then(user =>{
         name = user;
         current = user[0].current;
         destination = user[0].destination;
@@ -47,7 +47,7 @@ exports.getCarpool = (req, res, next) =>{
     });
 
       
-    res.render('pool.ejs',{current:current, destination:destination, time:time, users:users, name:name});
+    res.render('pool.ejs',{destination:destination, time:time, users:users, name:name});
 }
 exports.getStep1 = (req, res, next) =>{
     res.render('step1.ejs')

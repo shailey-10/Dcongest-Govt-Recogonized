@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const User = require('./models/user');
 
 const app = express();
-app.use(bodyParser.urlencoded());
+app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');
 app.set ('views', 'views');
 

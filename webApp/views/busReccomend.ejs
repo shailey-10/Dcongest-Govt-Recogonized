@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .nav{
+            width: 100%;
+            height: 200px;
+            background: #35B14F;
+            display: flex;
+            justify-content: space-between;
+
+            align-items: center;
+        }
+        img{
+            height: 100px;
+        }
+        .nav-contents{
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+            align-items: center;
+            width: 80% ;
+        }
+        .nav-contents h3{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            font-size: 20px;
+        }
+        .main{
+            height: 82vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            
+        }
+        .main-contents{
+            /* display: grid; */
+        }
+        .main-contents h1{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #000;
+            font-size: 50px;
+            margin-top: 30px;
+        }
+        .main-contents h2{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #000;
+            font-size: 40px;
+            font-weight: normal;
+            text-align: center;
+            margin-top: 60px;
+        }
+       table{
+           width: 100%;
+           font-size: 30px;
+           text-align: center;
+           margin-top: 60px;
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       }
+       table tr{
+        height: 60px;
+       }
+       table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-contents">
+        <img src="assets/logoW.png" alt="">
+        <h3>BusRoute Reccomendation | Connectivity Index | <i class="fa fa-user" aria-hidden="true"></i></h3>
+    </nav>
+    <div class="main">
+        <div class="main-contents">
+            <h1>Running busses on these routes will be highly efficient</h1>
+            
+    <% if(users >2) { %>
+        <table>
+            <tr>
+                <th>S.No</th>
+                <th>Pickup Location</th>
+                <th>Drop Location</th>
+                <th>Time</th>
+                <th>No. of passengers</th>
+            </tr>
+                <tr>
+                    <td><%= 1%></td>
+                    <td><%= current%></td>
+                    <td><%= destination%></td>
+                    <td><%= time%></td>
+                    <td><%= users * 20%></td>
+                </tr>
+        </table>
+        <!-- <h2>Run a Bus from <%=current%> to <%=destination%> @ <%=time%> (People on Route <%=users * 10 %>)</h2> -->
+        <%}else{%>
+            <h2>No suggestions</h2>
+            <%}%>
+        </div>
+    </div>
+</body>
+</html>
